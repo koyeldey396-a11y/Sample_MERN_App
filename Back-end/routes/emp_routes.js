@@ -12,16 +12,24 @@ router.post("/register",async(req,res)=>{
     res.send(result);
 })
 
-router.post("/login",(req,res)=>{
-    res.send("login page called");
+router.post("/login",async (req,res)=>{
+    let data=req.body;
+    let emailcheck=await users.findOne({email:data.email});
+    if(emailcheck){
+    let passcheck=await bcrypt.compare(emailcheck.password,data.password);
+    if(passcheck){
+        res.send("login successfull");
+    }else{
+        res.send("password wrong");
+    }
+
+        }else{
+            res.send("User not found");
+        }
 })
+
+
 
 router.get("/viewtask",(req,res)=>{
-    res.send("view task page called");
+    res.send("view task page called")
 })
-
-router.put("/updateprofile",(req,res)=>{
-    res.send("update profile page called");
-})
-
-module.exports=router;
