@@ -33,3 +33,5 @@ router.post("/login",async (req,res)=>{
 router.get("/viewtask",(req,res)=>{
     res.send("view task page called")
 })
+
+module.exports=router;
