@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-function Login() {
+function Register() {
 
     let [name, setName] = useState("")
     let [email, setEmail] = useState("")
@@ -10,26 +10,37 @@ function Login() {
 
     let [error, setError] = useState("")
     let navigate = useNavigate()
-    let handleLogin = (e) => {
+    let handleRegister = async(e) => {
         e.preventDefault()
-        if (email == "user@gmail.com" && password == "admin") {
-            console.log("Login successful!")
-            navigate("/userhome")
+
+        let res = await fetch("http://localhost:3000/api/emp/register", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ name, email, password, role })
+        })
+        let data = await res.json()
+
+        if (res.OK) {
+            console.log("data registered successfully")
+            console.log(data)
         } else {
-            setError("Invalid email or password")
+            console.log(" data insertion failed")
+            console.log(data)
         }
     }
+
     return (
         <div>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleRegister}>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter name"></input><br/>
                 <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter emailid"></input><br/>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter password"></input><br/>
                 <select value={role} onChange={(e) => setRole(e.target.value)}>
-                    <option value="EMP">User</option>
-                    <option value="HR">Admin</option>
+                    <option value="">Choose Role</option>
+                    <option value="EMPLOYEE">Employee</option>
+                    <option value="HR">HR</option>
                 </select><br/>
-                <button type="submit">Login</button>
+                <button type="submit">Register</button>
             </form>
 
             {error && <div className="alert alert-danger">{error}</div>}
@@ -37,4 +48,4 @@ function Login() {
     )
 }
 
-export default Login
+export default Register
