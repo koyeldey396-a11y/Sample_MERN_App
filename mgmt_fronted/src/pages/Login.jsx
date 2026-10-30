@@ -23,6 +23,17 @@ function Login() {
             })
             let data=await req.json()
             console.log(data)
+            if(data.user){
+                localStorage.setItem("currentuser",JSON.stringify(data.user))
+                //JSON.stringify converts string data into JSON format and stores it in local storage
+                if(data.user.role=="HR"){
+                    navigate("/hrhome")
+                }else{
+                    navigate("/emphome")
+                }
+            } else {
+                setError(data.msg)
+            }
         }
     }
     return (

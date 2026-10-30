@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
 
 function Register() {
 
@@ -7,9 +6,7 @@ function Register() {
     let [email, setEmail] = useState("")
     let [password, setPassword] = useState("")
     let [role, setRole] = useState("")
-
-    let [error, setError] = useState("")
-    let navigate = useNavigate()
+    
     let handleRegister = async(e) => {
         e.preventDefault()
 
